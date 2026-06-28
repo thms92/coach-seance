@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0A0A0B">
+<title>Coach — 28.06.2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0A0B;
+  --surface: #131318;
+  --surface-2: #1A1A21;
+  --border: #26262E;
+  --border-strong: #34343F;
+  --text: #F4F1EB;
+  --text-dim: #8E8A85;
+  --text-faint: #4F4D52;
+  --accent: #FF6B35;
+  --accent-soft: rgba(255, 107, 53, 0.12);
+  --accent-dim: #B85528;
+  --success: #4ADE80;
+  --success-soft: rgba(74, 222, 128, 0.10);
+  --success-dim: #2D7D4F;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, 0.10);
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+body { padding: 24px 18px 160px; max-width: 480px; margin: 0 auto; min-height: 100vh; overflow-x: hidden; }
+
+/* ============ HEADER ============ */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+.top .date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+.top .status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.top .status::before {
+  content: '●';
+  margin-right: 6px;
+  animation: pulse 1.6s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+h1 {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-top: 6px;
+  margin-bottom: 28px;
+}
+h1 .accent { color: var(--accent); }
+
+/* ============ SECTION HEADER ============ */
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ============ MARKER CARDS ============ */
+.marker {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 18px 18px 0;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: 4px;
+  align-items: start;
+  position: relative;
+  overflow: hidden;
+}
+.marker.triggered {
+  border-left: 3px solid var(--accent);
+  padding-left: 0;
+}
+.marker.neutral {
+  border-left: 3px solid var(--text-faint);
+}
+.marker.ok {
+  border-left: 3px solid var(--success-dim);
+}
+.marker .num {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: center;
+  padding-top: 2px;
+}
+.marker.neutral .num { color: var(--text-faint); }
+.marker.ok .num { color: var(--success-dim); }
+.marker .body { padding-right: 12px; }
+.marker .title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.marker .title .arrow {
+  color: var(--text-dim);
+  font-weight: 400;
+  margin: 0 6px;
+}
+.marker .title .value {
+  color: var(--text);
+}
+.marker.triggered .title .value { color: var(--accent); }
+.marker.ok .title .value { color: var(--success); }
+.marker .desc {
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.marker .tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  align-self: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-right: 14px;
+}
+.marker.triggered .tag {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.marker.neutral .tag {
+  color: var(--text-faint);
+  background: rgba(255,255,255,0.03);
+}
+.marker.ok .tag {
+  color: var(--success);
+  background: var(--success-soft);
+}
+
+/* ============ VERDICT BOX ============ */
+.verdict {
+  margin-top: 16px;
+  padding: 22px 20px;
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  background: rgba(255, 107, 53, 0.04);
+  text-align: center;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+.verdict .highlight { color: var(--accent); }
+.verdict .arrow { color: var(--text-dim); font-weight: 400; }
+
+/* ============ WEEK GRID ============ */
+.week-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.day {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 14px;
+  position: relative;
+}
+.day.today {
+  border-color: var(--success-dim);
+  background: var(--success-soft);
+}
+.day.skip {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+}
+.day.rest {
+  opacity: 0.55;
+}
+.day .day-name {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.day.today .day-name { color: var(--success); }
+.day.skip .day-name {
+  color: var(--danger);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+.day .day-content {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.day .day-content .badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  margin-left: 4px;
+  color: var(--success);
+  vertical-align: middle;
+}
+
+/* ============ EXERCISE CARDS ============ */
+.exercise {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.exercise.warmup, .exercise.finisher {
+  background: var(--surface-2);
+}
+.exercise-header {
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 4px;
+  align-items: start;
+}
+.exercise.warmup .exercise-header,
+.exercise.finisher .exercise-header {
+  border-bottom: none;
+}
+.exercise .ex-num {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  padding-top: 4px;
+}
+.exercise.warmup .ex-num,
+.exercise.finisher .ex-num {
+  color: var(--text-dim);
+}
+.exercise .ex-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+.exercise .ex-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+.exercise .ex-meta span strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ============ SETS ============ */
+.sets {
+  padding: 8px 18px 14px;
+}
+.set-row {
+  display: grid;
+  grid-template-columns: 22px 1fr 1fr 44px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.set-row:last-child { border-bottom: none; }
+.set-row .set-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-faint);
+  font-weight: 600;
+}
+.set-row.done .set-num { color: var(--success); }
+
+.input-wrap {
+  position: relative;
+}
+.input-wrap input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 36px 10px 12px;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: left;
+  outline: none;
+  -moz-appearance: textfield;
+  transition: border-color 0.15s;
+}
+.input-wrap input::-webkit-outer-spin-button,
+.input-wrap input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input-wrap input:focus { border-color: var(--accent); }
+.input-wrap input::placeholder { color: var(--text-faint); }
+.input-wrap .unit {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  pointer-events: none;
+  letter-spacing: 0.05em;
+}
+.set-row.done .input-wrap input {
+  color: var(--success);
+  border-color: var(--success-dim);
+  background: var(--success-soft);
+}
+
+/* ============ CHECK BUTTON ============ */
+.check {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border-strong);
+  background: var(--bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.check svg { width: 18px; height: 18px; opacity: 0; transition: opacity 0.15s; }
+.check svg path { stroke: var(--bg); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.set-row.done .check {
+  background: var(--success);
+  border-color: var(--success);
+}
+.set-row.done .check svg { opacity: 1; }
+.check:active { transform: scale(0.92); }
+
+/* ============ WARMUP / FINISHER SIMPLE ROWS ============ */
+.simple-list {
+  padding: 4px 18px 16px;
+}
+.simple-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.simple-row:last-child { border-bottom: none; }
+.simple-row .check-small {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border-strong);
+  background: var(--bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.simple-row.done .check-small {
+  background: var(--success);
+  border-color: var(--success);
+}
+.simple-row .check-small svg { width: 12px; height: 12px; opacity: 0; }
+.simple-row.done .check-small svg { opacity: 1; }
+.simple-row .check-small svg path { stroke: var(--bg); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.simple-row .text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.35;
+}
+.simple-row.done .text { color: var(--text-dim); text-decoration: line-through; }
+
+/* ============ PROGRESS BAR ============ */
+.progress-wrap {
+  margin-top: 4px;
+  margin-bottom: 28px;
+}
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+.progress-label .pct { color: var(--accent); font-weight: 600; }
+
+/* ============ REST TIMER ============ */
+.timer-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 22px 24px 30px;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
+}
+.timer-overlay.active { transform: translateY(0); }
+.timer-overlay .timer-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.timer-overlay .timer-label::before {
+  content: '●';
+  margin-right: 6px;
+  animation: pulse 1.2s infinite;
+}
+.timer-overlay .timer-display {
+  font-family: var(--mono);
+  font-size: 56px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 14px;
+  line-height: 1;
+}
+.timer-overlay.warn .timer-display { color: var(--accent); }
+.timer-overlay .timer-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.timer-overlay .timer-progress {
+  height: 100%;
+  background: var(--accent);
+  width: 100%;
+  transition: width 0.95s linear;
+}
+.timer-overlay .timer-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.timer-btn {
+  padding: 12px 0;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 600;
+}
+.timer-btn:active { background: var(--surface-2); }
+.timer-btn.primary {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+/* ============ SUMMARY ============ */
+.summary-section {
+  margin-top: 40px;
+}
+.summary-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 12px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  margin-top: 10px;
+}
+.summary-btn:active { opacity: 0.85; }
+.summary-btn.secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.summary-output {
+  display: none;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+.summary-output.visible { display: block; }
+
+/* ============ DONE BANNER ============ */
+.done-banner {
+  display: none;
+  margin: 24px 0;
+  padding: 24px;
+  background: var(--success-soft);
+  border: 1.5px dashed var(--success);
+  border-radius: 14px;
+  text-align: center;
+}
+.done-banner.visible { display: block; }
+.done-banner .title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--success);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.done-banner .sub {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <span class="date">DIM · 28 JUIN 2026</span>
+  <span class="status">PRÊT</span>
+</div>
+<h1>Upper —<br><span class="accent">reprise</span> contrôlée.</h1>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label">
+    <span>Progression</span>
+    <span class="pct" id="progressPct">0%</span>
+  </div>
+</div>
+
+<!-- ============ PRE-SESSION ANALYSIS ============ -->
+<div class="section-label">Analyse pré-séance</div>
+
+<div class="marker neutral">
+  <div class="num">01</div>
+  <div class="body">
+    <div class="title">Sommeil <span class="arrow">→</span> <span class="value">non mesuré</span></div>
+    <div class="desc">Aucune donnée fiable cette nuit. On reste prudent, sans dramatiser.</div>
+  </div>
+  <div class="tag">INCERTAIN</div>
+</div>
+
+<div class="marker triggered">
+  <div class="num">02</div>
+  <div class="body">
+    <div class="title">Charge 7 j <span class="arrow">→</span> <span class="value">0 séance</span></div>
+    <div class="desc">Une semaine off pour cause de canicule. Le corps n'est ni fatigué ni stimulé.</div>
+  </div>
+  <div class="tag">SOUS-CHARGE</div>
+</div>
+
+<div class="marker triggered">
+  <div class="num">03</div>
+  <div class="body">
+    <div class="title">Stress thermique <span class="arrow">→</span> <span class="value">récent</span></div>
+    <div class="desc">Sortie de canicule, 27 °C aujourd'hui. Hydratation et déficit hydrique à compenser.</div>
+  </div>
+  <div class="tag">RÉCENT</div>
+</div>
+
+<div class="verdict">
+  <span class="highlight">2 signaux convergents</span> <span class="arrow">→</span><br>
+  reprise progressive, <span class="highlight">pas de PR aujourd'hui</span>.
+</div>
+
+<!-- ============ WEEK GRID ============ -->
+<div class="section-label">L'agenda s'ajuste</div>
+
+<div class="week-grid">
+  <div class="day today">
+    <div class="day-name">Dim · today</div>
+    <div class="day-content">Upper <span class="badge">REPRISE</span></div>
+  </div>
+  <div class="day">
+    <div class="day-name">Lundi</div>
+    <div class="day-content">Lower</div>
+  </div>
+  <div class="day">
+    <div class="day-name">Mardi</div>
+    <div class="day-content">Push</div>
+  </div>
+  <div class="day">
+    <div class="day-name">Mercredi</div>
+    <div class="day-content">Pull</div>
+  </div>
+  <div class="day">
+    <div class="day-name">Jeudi</div>
+    <div class="day-content">Legs</div>
+  </div>
+  <div class="day rest">
+    <div class="day-name">Ven · Sam</div>
+    <div class="day-content">Repos</div>
+  </div>
+</div>
+
+<!-- ============ SESSION ============ -->
+<div class="section-label">Séance · 60 min</div>
+
+<!-- Warmup -->
+<div class="exercise warmup">
+  <div class="exercise-header">
+    <div class="ex-num">·</div>
+    <div>
+      <div class="ex-title">Échauffement</div>
+      <div class="ex-meta"><span>7 min</span></div>
+    </div>
+  </div>
+  <div class="simple-list">
+    <div class="simple-row" data-id="warm1">
+      <div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div class="text">Vélo ou rameur — 5 min allure facile</div>
+    </div>
+    <div class="simple-row" data-id="warm2">
+      <div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div class="text">Mobilité épaules + rotations scapulas — 2 min</div>
+    </div>
+  </div>
+</div>
+
+<!-- Compound 1 -->
+<div class="exercise" data-rest="120">
+  <div class="exercise-header">
+    <div class="ex-num">01</div>
+    <div>
+      <div class="ex-title">Développé couché haltères</div>
+      <div class="ex-meta">
+        <span><strong>4 ×</strong> 8-10</span>
+        <span>Repos <strong>2 min</strong></span>
+        <span>RPE <strong>7-8</strong></span>
+      </div>
+    </div>
+  </div>
+  <div class="sets">
+    <div class="set-row" data-set="1">
+      <div class="set-num">1</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check" aria-label="Valider la série"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="2">
+      <div class="set-num">2</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="3">
+      <div class="set-num">3</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="4">
+      <div class="set-num">4</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- Compound 2 -->
+<div class="exercise" data-rest="120">
+  <div class="exercise-header">
+    <div class="ex-num">02</div>
+    <div>
+      <div class="ex-title">Tirage horizontal poulie</div>
+      <div class="ex-meta">
+        <span><strong>4 ×</strong> 10</span>
+        <span>Repos <strong>2 min</strong></span>
+        <span>RPE <strong>7-8</strong></span>
+      </div>
+    </div>
+  </div>
+  <div class="sets">
+    <div class="set-row" data-set="1">
+      <div class="set-num">1</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="2">
+      <div class="set-num">2</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="3">
+      <div class="set-num">3</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="4">
+      <div class="set-num">4</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- Compound 3 -->
+<div class="exercise" data-rest="90">
+  <div class="exercise-header">
+    <div class="ex-num">03</div>
+    <div>
+      <div class="ex-title">Développé militaire haltères assis</div>
+      <div class="ex-meta">
+        <span><strong>3 ×</strong> 10</span>
+        <span>Repos <strong>90 s</strong></span>
+        <span>RPE <strong>7</strong></span>
+      </div>
+    </div>
+  </div>
+  <div class="sets">
+    <div class="set-row" data-set="1">
+      <div class="set-num">1</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="2">
+      <div class="set-num">2</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="3">
+      <div class="set-num">3</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- Compound 4 -->
+<div class="exercise" data-rest="90">
+  <div class="exercise-header">
+    <div class="ex-num">04</div>
+    <div>
+      <div class="ex-title">Tirage vertical poulie</div>
+      <div class="ex-meta">
+        <span><strong>3 ×</strong> 10</span>
+        <span>Repos <strong>90 s</strong></span>
+        <span>RPE <strong>7</strong></span>
+      </div>
+    </div>
+  </div>
+  <div class="sets">
+    <div class="set-row" data-set="1">
+      <div class="set-num">1</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="2">
+      <div class="set-num">2</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="3">
+      <div class="set-num">3</div>
+      <div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div>
+      <div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- Superset -->
+<div class="exercise" data-rest="60">
+  <div class="exercise-header">
+    <div class="ex-num">05</div>
+    <div>
+      <div class="ex-title">Superset bras — Curl haltères + Triceps poulie</div>
+      <div class="ex-meta">
+        <span><strong>3 ×</strong> 12 / 12</span>
+        <span>Repos <strong>60 s</strong></span>
+        <span>RPE <strong>8</strong></span>
+      </div>
+    </div>
+  </div>
+  <div class="sets">
+    <div class="set-row" data-set="1">
+      <div class="set-num">1</div>
+      <div class="input-wrap"><input type="text" inputmode="text" placeholder="kg / kg"><span class="unit">CRL/TRI</span></div>
+      <div class="input-wrap"><input type="text" inputmode="text" placeholder="reps / reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="2">
+      <div class="set-num">2</div>
+      <div class="input-wrap"><input type="text" inputmode="text" placeholder="kg / kg"><span class="unit">CRL/TRI</span></div>
+      <div class="input-wrap"><input type="text" inputmode="text" placeholder="reps / reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+    <div class="set-row" data-set="3">
+      <div class="set-num">3</div>
+      <div class="input-wrap"><input type="text" inputmode="text" placeholder="kg / kg"><span class="unit">CRL/TRI</span></div>
+      <div class="input-wrap"><input type="text" inputmode="text" placeholder="reps / reps"><span class="unit">REPS</span></div>
+      <button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- Finisher -->
+<div class="exercise finisher">
+  <div class="exercise-header">
+    <div class="ex-num">·</div>
+    <div>
+      <div class="ex-title">Finisher cardio</div>
+      <div class="ex-meta"><span>8-10 min · modéré (essoufflé mais peut parler)</span></div>
+    </div>
+  </div>
+  <div class="simple-list">
+    <div class="simple-row" data-id="fin1">
+      <div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div class="text">Rameur ou vélo — 8 à 10 min allure modérée</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DONE BANNER ============ -->
+<div class="done-banner" id="doneBanner">
+  <div class="title">Séance bouclée ✦</div>
+  <div class="sub">Hydrate-toi, protéine dans l'heure, et envoie-moi le résumé.</div>
+</div>
+
+<!-- ============ SUMMARY ============ -->
+<div class="summary-section">
+  <button class="summary-btn" id="summaryBtn">Générer le résumé de séance</button>
+  <button class="summary-btn secondary" id="copyBtn" style="display:none;">Copier dans le presse-papier</button>
+  <div class="summary-output" id="summaryOutput"></div>
+</div>
+
+<!-- ============ REST TIMER OVERLAY ============ -->
+<div class="timer-overlay" id="timerOverlay">
+  <div class="timer-label" id="timerLabel">REPOS</div>
+  <div class="timer-display" id="timerDisplay">02:00</div>
+  <div class="timer-track"><div class="timer-progress" id="timerProgress"></div></div>
+  <div class="timer-actions">
+    <button class="timer-btn" id="timerMinus">−15 s</button>
+    <button class="timer-btn" id="timerPlus">+15 s</button>
+    <button class="timer-btn primary" id="timerSkip">Skip</button>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+const state = {
+  sets: {},      // { 'ex-set' : { weight, reps, done } }
+  warmups: {},
+  totalTrackedItems: 0,
+};
+
+// Build totalTrackedItems
+(function init() {
+  document.querySelectorAll('.set-row').forEach(r => state.totalTrackedItems++);
+  document.querySelectorAll('.simple-row').forEach(r => state.totalTrackedItems++);
+})();
+
+// ===== TIMER =====
+let timerInterval = null;
+let timerRemaining = 0;
+let timerTotal = 0;
+
+const overlay = document.getElementById('timerOverlay');
+const tDisplay = document.getElementById('timerDisplay');
+const tProgress = document.getElementById('timerProgress');
+
+function fmt(s) {
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`;
+}
+
+function startTimer(seconds) {
+  clearInterval(timerInterval);
+  timerRemaining = seconds;
+  timerTotal = seconds;
+  overlay.classList.add('active');
+  overlay.classList.remove('warn');
+  tDisplay.textContent = fmt(timerRemaining);
+  tProgress.style.transition = 'none';
+  tProgress.style.width = '100%';
+  requestAnimationFrame(() => {
+    tProgress.style.transition = 'width 0.95s linear';
+    tProgress.style.width = '0%';
+  });
+  timerInterval = setInterval(() => {
+    timerRemaining--;
+    tDisplay.textContent = fmt(Math.max(0, timerRemaining));
+    if (timerRemaining <= 10 && timerRemaining > 0) {
+      overlay.classList.add('warn');
+    }
+    if (timerRemaining <= 0) {
+      clearInterval(timerInterval);
+      // small haptic-like flash
+      tDisplay.textContent = 'GO';
+      if (navigator.vibrate) navigator.vibrate([100, 60, 100]);
+      setTimeout(() => stopTimer(), 1400);
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  overlay.classList.remove('active');
+}
+
+document.getElementById('timerSkip').addEventListener('click', stopTimer);
+document.getElementById('timerPlus').addEventListener('click', () => {
+  timerRemaining += 15;
+  timerTotal += 15;
+  tDisplay.textContent = fmt(timerRemaining);
+});
+document.getElementById('timerMinus').addEventListener('click', () => {
+  timerRemaining = Math.max(0, timerRemaining - 15);
+  tDisplay.textContent = fmt(timerRemaining);
+});
+
+// ===== SETS =====
+document.querySelectorAll('.exercise[data-rest]').forEach(ex => {
+  const restSeconds = parseInt(ex.dataset.rest, 10);
+  const exTitle = ex.querySelector('.ex-title').textContent;
+  ex.querySelectorAll('.set-row').forEach(row => {
+    const setNum = row.dataset.set;
+    const check = row.querySelector('.check');
+    check.addEventListener('click', () => {
+      row.classList.toggle('done');
+      const id = exTitle + '#' + setNum;
+      if (row.classList.contains('done')) {
+        const inputs = row.querySelectorAll('input');
+        state.sets[id] = {
+          exercise: exTitle,
+          set: setNum,
+          weight: inputs[0].value,
+          reps: inputs[1].value,
+        };
+        startTimer(restSeconds);
+        if (navigator.vibrate) navigator.vibrate(30);
+      } else {
+        delete state.sets[id];
+      }
+      updateProgress();
+    });
+  });
+});
+
+// ===== SIMPLE ROWS =====
+document.querySelectorAll('.simple-row').forEach(row => {
+  row.addEventListener('click', (e) => {
+    if (e.target.closest('input')) return;
+    row.classList.toggle('done');
+    const id = row.dataset.id;
+    if (row.classList.contains('done')) {
+      state.warmups[id] = true;
+    } else {
+      delete state.warmups[id];
+    }
+    updateProgress();
+  });
+});
+
+// ===== PROGRESS =====
+function updateProgress() {
+  const doneSets = Object.keys(state.sets).length;
+  const doneWarm = Object.keys(state.warmups).length;
+  const total = state.totalTrackedItems;
+  const pct = Math.round(((doneSets + doneWarm) / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  if (pct === 100) {
+    document.getElementById('doneBanner').classList.add('visible');
+  } else {
+    document.getElementById('doneBanner').classList.remove('visible');
+  }
+}
+
+// ===== SUMMARY =====
+document.getElementById('summaryBtn').addEventListener('click', () => {
+  const groupedByExercise = {};
+  Object.values(state.sets).forEach(s => {
+    if (!groupedByExercise[s.exercise]) groupedByExercise[s.exercise] = [];
+    groupedByExercise[s.exercise].push(s);
+  });
+
+  let txt = 'SÉANCE — Dim 28 juin 2026 · Upper reprise\n';
+  txt += '─'.repeat(38) + '\n\n';
+
+  const warmDone = Object.keys(state.warmups).length;
+  if (warmDone > 0) {
+    txt += `Échauffement : ${warmDone}/2 ok\n\n`;
+  }
+
+  if (Object.keys(groupedByExercise).length === 0) {
+    txt += 'Aucune série validée.\n';
+  } else {
+    Object.keys(groupedByExercise).forEach(ex => {
+      txt += `${ex}\n`;
+      groupedByExercise[ex].sort((a,b) => a.set - b.set).forEach(s => {
+        const w = s.weight || '?';
+        const r = s.reps || '?';
+        txt += `  · Set ${s.set} → ${w} kg × ${r}\n`;
+      });
+      txt += '\n';
+    });
+  }
+
+  if (state.warmups['fin1']) {
+    txt += 'Finisher cardio : fait ✓\n\n';
+  }
+
+  txt += 'RESSENTI :\n';
+  txt += '  (à compléter — énergie, charges, douleurs ?)\n';
+
+  document.getElementById('summaryOutput').textContent = txt;
+  document.getElementById('summaryOutput').classList.add('visible');
+  document.getElementById('copyBtn').style.display = 'block';
+});
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const text = document.getElementById('summaryOutput').textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    const btn = document.getElementById('copyBtn');
+    const orig = btn.textContent;
+    btn.textContent = 'Copié ✓';
+    setTimeout(() => btn.textContent = orig, 1600);
+  } catch (e) {
+    // fallback
+    const range = document.createRange();
+    range.selectNode(document.getElementById('summaryOutput'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+  }
+});
+
+// Auto-advance: on Enter in reps input, mark set done
+document.querySelectorAll('.set-row input').forEach(input => {
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const row = input.closest('.set-row');
+      const check = row.querySelector('.check');
+      if (!row.classList.contains('done')) check.click();
+      input.blur();
+    }
+  });
+});
+</script>
+</body>
+</html>
