@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0A0A0B">
-<link rel="manifest" href="manifest.json">
 <title>Coach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -151,6 +150,12 @@ h1 .accent { color: var(--accent); }
 .simple-row .check-small svg path { stroke: var(--bg); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .simple-row .text { font-size: 14px; color: var(--text); line-height: 1.35; }
 .simple-row.done .text { color: var(--text-dim); text-decoration: line-through; }
+
+/* ===== CARDIO OBJECTIF ===== */
+.cardio-objective { display: none; margin: 14px 18px 0; padding: 12px 14px; background: var(--accent-soft); border: 1px dashed var(--accent); border-radius: 10px; font-size: 13px; color: var(--accent); font-weight: 600; line-height: 1.5; }
+.cardio-objective.visible { display: block; }
+.cardio-objective .obj-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 4px; color: var(--accent-dim); }
+.cardio-result-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--text-faint); text-transform: uppercase; padding: 14px 18px 0; }
 
 /* ===== CARDIO FINISHER ===== */
 .machine-select { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; padding: 14px 18px 0; }
@@ -299,7 +304,7 @@ h1 .accent { color: var(--accent); }
   <div class="day-tab" data-day="jeu"><div class="dt-day">Jeu</div><div class="dt-type">Cardio</div></div>
 </div>
 
-<div class="edit-bar"><button class="edit-btn" id="editBtn">✎ Modifier les exercices</button></div>
+<div class="edit-bar"><button class="edit-btn" id="resetBtn" style="margin-right:8px;">↺ Nouvelle séance</button><button class="edit-btn" id="editBtn">✎ Modifier les exercices</button></div>
 <div class="edit-hint" id="editHint">Mode édition actif — touche un titre ou les infos (séries/reps/repos) pour les modifier librement. Touche à nouveau le bouton pour enregistrer.</div>
 
 <!-- ============================================================ -->
@@ -313,8 +318,8 @@ h1 .accent { color: var(--accent); }
       <div class="ex-meta"><span>7 min</span></div>
     </div></div>
     <div class="simple-list">
-      <div class="simple-row"><div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="text">Vélo ou rameur — 5 min allure facile</div></div>
-      <div class="simple-row"><div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="text">Mobilité épaules + rotations scapulas — 2 min</div></div>
+      <div class="simple-row done"><div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="text">Vélo ou rameur — 5 min allure facile</div></div>
+      <div class="simple-row done"><div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="text">Mobilité épaules + rotations scapulas — 2 min</div></div>
     </div>
   </div>
 
@@ -325,10 +330,10 @@ h1 .accent { color: var(--accent); }
       <div class="ex-info"><div class="ex-info-inner">Allongé sur le banc, haltères au-dessus des épaules, coudes à <strong>~75°</strong> du buste. Descends jusqu'à l'étirement pectoral, remonte sans verrouiller à fond.<span class="cue">Repère : omoplates serrées et basses, pieds ancrés.</span></div></div>
     </div></div>
     <div class="sets">
-      <div class="set-row" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="4"><div class="set-num">4</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="number" inputmode="decimal" value="17.5" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="12" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="number" inputmode="decimal" value="17.5" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="20" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" inputmode="decimal" value="17.5" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="15" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="4"><div class="set-num">4</div><div class="input-wrap"><input type="number" inputmode="decimal" value="17.5" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="15" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
     </div>
   </div>
 
@@ -339,10 +344,10 @@ h1 .accent { color: var(--accent); }
       <div class="ex-info"><div class="ex-info-inner">Assis, buste droit. Tire la poignée vers le sternum en ouvrant les coudes près du corps, sans te pencher en arrière.<span class="cue">Repère : coudes vers les hanches, c'est le dos qui tire.</span></div></div>
     </div></div>
     <div class="sets">
-      <div class="set-row" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="4"><div class="set-num">4</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="number" inputmode="decimal" value="12.5" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="20" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="number" inputmode="decimal" value="15" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="15" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" inputmode="decimal" value="15" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="12" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="4"><div class="set-num">4</div><div class="input-wrap"><input type="number" inputmode="decimal" value="20" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="8" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
     </div>
   </div>
 
@@ -353,9 +358,9 @@ h1 .accent { color: var(--accent); }
       <div class="ex-info"><div class="ex-info-inner">Assis, dos calé. Haltères à hauteur d'épaules, pousse vers le haut sans cambrer le bas du dos.<span class="cue">Repère : contrôle la descente, ne claque pas les haltères en haut.</span></div></div>
     </div></div>
     <div class="sets">
-      <div class="set-row" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="number" inputmode="decimal" value="17.5" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="10" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="number" inputmode="decimal" value="17.5" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="10" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" inputmode="decimal" value="17.5" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="10" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
     </div>
   </div>
 
@@ -366,9 +371,9 @@ h1 .accent { color: var(--accent); }
       <div class="ex-info"><div class="ex-info-inner">Assis, tire la barre vers le haut du sternum, coudes vers le bas. Remonte en contrôlant.<span class="cue">Repère : descends les épaules avant de tirer.</span></div></div>
     </div></div>
     <div class="sets">
-      <div class="set-row" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" inputmode="decimal" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="number" inputmode="decimal" value="30" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="20" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="number" inputmode="decimal" value="40" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="12" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" inputmode="decimal" value="50" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" inputmode="numeric" value="10" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
     </div>
   </div>
 
@@ -379,13 +384,13 @@ h1 .accent { color: var(--accent); }
       <div class="ex-info"><div class="ex-info-inner"><strong>Curl :</strong> coudes fixes, pas de balancement.<br><strong>Triceps :</strong> coudes collés, seul l'avant-bras bouge.<span class="cue">Repère : zéro élan, les deux exos s'enchaînent sans repos entre eux.</span></div></div>
     </div></div>
     <div class="sets">
-      <div class="set-row" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="text" placeholder="kg/kg"><span class="unit">CRL/TRI</span></div><div class="input-wrap"><input type="text" placeholder="reps/reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="text" placeholder="kg/kg"><span class="unit">CRL/TRI</span></div><div class="input-wrap"><input type="text" placeholder="reps/reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
-      <div class="set-row" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="text" placeholder="kg/kg"><span class="unit">CRL/TRI</span></div><div class="input-wrap"><input type="text" placeholder="reps/reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="1"><div class="set-num">1</div><div class="input-wrap"><input type="text" value="15" placeholder="kg/kg"><span class="unit">CRL/TRI</span></div><div class="input-wrap"><input type="text" value="10" placeholder="reps/reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="2"><div class="set-num">2</div><div class="input-wrap"><input type="text" value="15" placeholder="kg/kg"><span class="unit">CRL/TRI</span></div><div class="input-wrap"><input type="text" value="10" placeholder="reps/reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
+      <div class="set-row done" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="text" value="15" placeholder="kg/kg"><span class="unit">CRL/TRI</span></div><div class="input-wrap"><input type="text" value="10" placeholder="reps/reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
     </div>
   </div>
 
-  <div class="exercise finisher">
+  <div class="exercise finisher" data-target="short">
     <div class="exercise-header"><div class="ex-num">·</div><div>
       <div class="ex-title">Finisher cardio</div>
       <div class="ex-meta"><span>8-10 min · modéré</span></div>
@@ -395,6 +400,8 @@ h1 .accent { color: var(--accent); }
       <div class="machine-btn" data-machine="tapis">Tapis</div>
       <div class="machine-btn" data-machine="velo">Vélo</div>
     </div>
+    <div class="cardio-objective" id="obj-placeholder"></div>
+    <div class="cardio-result-label">Ton résultat</div>
     <div class="cardio-fields">
       <div class="cardio-field"><label>Durée</label><div class="input-wrap"><input type="number" class="cardio-time" placeholder="9"><span class="unit">MIN</span></div></div>
       <div class="cardio-field"><label>Distance</label><div class="input-wrap"><input type="number" class="cardio-dist" placeholder="2.1"><span class="unit">KM</span></div></div>
@@ -402,7 +409,7 @@ h1 .accent { color: var(--accent); }
       <div class="cardio-field"><label class="cardio-incline-label">Pente/Résistance</label><div class="input-wrap"><input type="number" class="cardio-incline" placeholder="1"><span class="unit cardio-incline-unit">%</span></div></div>
       <div class="cardio-field full"><label>FC moyenne</label><div class="input-wrap"><input type="number" class="cardio-hr" placeholder="135"><span class="unit">BPM</span></div></div>
     </div>
-    <div class="simple-list"><div class="simple-row"><div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="text">Cardio terminé</div></div></div>
+    <div class="simple-list"><div class="simple-row done"><div class="check-small"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="text">Cardio terminé</div></div></div>
   </div>
 
 </div>
@@ -419,12 +426,14 @@ h1 .accent { color: var(--accent); }
     </div>
   </div>
 
-  <div class="exercise finisher">
+  <div class="exercise finisher" data-target="long">
     <div class="exercise-header"><div class="ex-num">·</div><div>
       <div class="ex-title">Cardio principal</div>
       <div class="ex-meta"><span>25-30 min · continu ou intervalles, à ta convenance</span></div>
     </div></div>
     <div class="machine-select"><div class="machine-btn" data-machine="rameur">Rameur</div><div class="machine-btn" data-machine="tapis">Tapis</div><div class="machine-btn" data-machine="velo">Vélo</div></div>
+    <div class="cardio-objective" id="obj-placeholder"></div>
+    <div class="cardio-result-label">Ton résultat</div>
     <div class="cardio-fields">
       <div class="cardio-field"><label>Durée</label><div class="input-wrap"><input type="number" class="cardio-time" placeholder="27"><span class="unit">MIN</span></div></div>
       <div class="cardio-field"><label>Distance</label><div class="input-wrap"><input type="number" class="cardio-dist" placeholder="6.5"><span class="unit">KM</span></div></div>
@@ -535,9 +544,11 @@ h1 .accent { color: var(--accent); }
       <div class="set-row" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
     </div>
   </div>
-  <div class="exercise finisher">
+  <div class="exercise finisher" data-target="short">
     <div class="exercise-header"><div class="ex-num">·</div><div><div class="ex-title">Finisher cardio</div><div class="ex-meta"><span>8-10 min · modéré</span></div></div></div>
     <div class="machine-select"><div class="machine-btn" data-machine="rameur">Rameur</div><div class="machine-btn" data-machine="tapis">Tapis</div><div class="machine-btn" data-machine="velo">Vélo</div></div>
+    <div class="cardio-objective" id="obj-placeholder"></div>
+    <div class="cardio-result-label">Ton résultat</div>
     <div class="cardio-fields">
       <div class="cardio-field"><label>Durée</label><div class="input-wrap"><input type="number" class="cardio-time" placeholder="9"><span class="unit">MIN</span></div></div>
       <div class="cardio-field"><label>Distance</label><div class="input-wrap"><input type="number" class="cardio-dist" placeholder="2.1"><span class="unit">KM</span></div></div>
@@ -610,9 +621,11 @@ h1 .accent { color: var(--accent); }
       <div class="set-row" data-set="3"><div class="set-num">3</div><div class="input-wrap"><input type="number" placeholder="kg"><span class="unit">KG</span></div><div class="input-wrap"><input type="number" placeholder="reps"><span class="unit">REPS</span></div><button class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button></div>
     </div>
   </div>
-  <div class="exercise finisher">
+  <div class="exercise finisher" data-target="short">
     <div class="exercise-header"><div class="ex-num">·</div><div><div class="ex-title">Finisher cardio</div><div class="ex-meta"><span>8-10 min · modéré</span></div></div></div>
     <div class="machine-select"><div class="machine-btn" data-machine="rameur">Rameur</div><div class="machine-btn" data-machine="tapis">Tapis</div><div class="machine-btn" data-machine="velo">Vélo</div></div>
+    <div class="cardio-objective" id="obj-placeholder"></div>
+    <div class="cardio-result-label">Ton résultat</div>
     <div class="cardio-fields">
       <div class="cardio-field"><label>Durée</label><div class="input-wrap"><input type="number" class="cardio-time" placeholder="9"><span class="unit">MIN</span></div></div>
       <div class="cardio-field"><label>Distance</label><div class="input-wrap"><input type="number" class="cardio-dist" placeholder="2.1"><span class="unit">KM</span></div></div>
@@ -636,12 +649,14 @@ h1 .accent { color: var(--accent); }
     </div>
   </div>
 
-  <div class="exercise finisher">
+  <div class="exercise finisher" data-target="long">
     <div class="exercise-header"><div class="ex-num">·</div><div>
       <div class="ex-title">Cardio principal</div>
       <div class="ex-meta"><span>25-30 min · continu ou intervalles, à ta convenance</span></div>
     </div></div>
     <div class="machine-select"><div class="machine-btn" data-machine="rameur">Rameur</div><div class="machine-btn" data-machine="tapis">Tapis</div><div class="machine-btn" data-machine="velo">Vélo</div></div>
+    <div class="cardio-objective" id="obj-placeholder"></div>
+    <div class="cardio-result-label">Ton résultat</div>
     <div class="cardio-fields">
       <div class="cardio-field"><label>Durée</label><div class="input-wrap"><input type="number" class="cardio-time" placeholder="27"><span class="unit">MIN</span></div></div>
       <div class="cardio-field"><label>Distance</label><div class="input-wrap"><input type="number" class="cardio-dist" placeholder="6.5"><span class="unit">KM</span></div></div>
@@ -799,19 +814,119 @@ document.getElementById('timerSkip').addEventListener('click', stopTimer);
 document.getElementById('timerPlus').addEventListener('click', () => { timerEndAt+=15000; timerTotal+=15; persistTimer(); renderTimer(); });
 document.getElementById('timerMinus').addEventListener('click', () => { timerEndAt=Math.max(Date.now(), timerEndAt-15000); persistTimer(); renderTimer(); });
 
+// ===== OBJECTIFS CARDIO =====
+const CARDIO_TARGETS = {
+  short: {
+    rameur: { time: 9, dist: 2.1, txt: '9 min · 2,1 km (~2:08/500m)' },
+    tapis:  { time: 9, speed: 9.5, incline: 1, txt: '9 min · 9,5 km/h · pente 1%' },
+    velo:   { time: 9, speed: 28, incline: 8, txt: '9 min · 28 km/h · résistance niv. 8' },
+  },
+  long: {
+    rameur: { time: 27, dist: 6.5, txt: '27 min · 6,5 km (~2:05/500m)' },
+    tapis:  { time: 27, speed: 9.5, incline: 1, txt: '27 min · 9,5 km/h · pente 1%' },
+    velo:   { time: 27, speed: 28, incline: 8, txt: '27 min · 28 km/h · résistance niv. 8' },
+  }
+};
+
+// ===== AUTOSAVE PROGRESSION EN COURS (corrige la perte de données) =====
+function getDayStateKey(day){ return 'dayState_' + day; }
+function saveDayState(day){
+  const panel = document.querySelector(`.day-panel[data-day="${day}"]`);
+  if (!panel) return;
+  const state = { sets:{}, simples:{}, cardio:{} };
+  const exercises = panel.querySelectorAll('.exercise[data-rest]');
+  exercises.forEach((ex, exIndex) => {
+    ex.querySelectorAll('.set-row').forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      state.sets[`${exIndex}-${row.dataset.set}`] = { v1: inputs[0].value, v2: inputs[1].value, done: row.classList.contains('done') };
+    });
+  });
+  panel.querySelectorAll('.simple-row').forEach((row, i) => { state.simples[i] = row.classList.contains('done'); });
+  panel.querySelectorAll('.exercise.finisher').forEach((fin, fi) => {
+    const machineBtn = fin.querySelector('.machine-btn.selected');
+    state.cardio[fi] = {
+      machine: machineBtn ? machineBtn.dataset.machine : null,
+      time: fin.querySelector('.cardio-time')?.value || '',
+      dist: fin.querySelector('.cardio-dist')?.value || '',
+      speed: fin.querySelector('.cardio-speed')?.value || '',
+      incline: fin.querySelector('.cardio-incline')?.value || '',
+      hr: fin.querySelector('.cardio-hr')?.value || '',
+    };
+  });
+  localStorage.setItem(getDayStateKey(day), JSON.stringify(state));
+}
+function restoreDayState(day){
+  const saved = localStorage.getItem(getDayStateKey(day));
+  if (!saved) return;
+  try {
+    const state = JSON.parse(saved);
+    const panel = document.querySelector(`.day-panel[data-day="${day}"]`);
+    if (!panel) return;
+    const exercises = panel.querySelectorAll('.exercise[data-rest]');
+    Object.keys(state.sets).forEach(key => {
+      const [exIndex, setNum] = key.split('-');
+      const ex = exercises[exIndex];
+      if (!ex) return;
+      const row = ex.querySelector(`.set-row[data-set="${setNum}"]`);
+      if (!row) return;
+      const inputs = row.querySelectorAll('input');
+      inputs[0].value = state.sets[key].v1 || '';
+      inputs[1].value = state.sets[key].v2 || '';
+      row.classList.toggle('done', !!state.sets[key].done);
+    });
+    panel.querySelectorAll('.simple-row').forEach((row, i) => { row.classList.toggle('done', !!state.simples[i]); });
+    panel.querySelectorAll('.exercise.finisher').forEach((fin, fi) => {
+      const c = state.cardio[fi];
+      if (!c) return;
+      if (c.machine) {
+        const btn = fin.querySelector(`.machine-btn[data-machine="${c.machine}"]`);
+        if (btn) { fin.querySelectorAll('.machine-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); }
+        const targetType = fin.dataset.target === 'long' ? 'long' : 'short';
+        const target = CARDIO_TARGETS[targetType]?.[c.machine];
+        const objDiv = fin.querySelector('.cardio-objective');
+        if (objDiv && target) { objDiv.innerHTML = `<span class="obj-label">🎯 Objectif à atteindre</span>${target.txt}`; objDiv.classList.add('visible'); }
+      }
+      if (fin.querySelector('.cardio-time')) fin.querySelector('.cardio-time').value = c.time || '';
+      if (fin.querySelector('.cardio-dist')) fin.querySelector('.cardio-dist').value = c.dist || '';
+      if (fin.querySelector('.cardio-speed')) fin.querySelector('.cardio-speed').value = c.speed || '';
+      if (fin.querySelector('.cardio-incline')) fin.querySelector('.cardio-incline').value = c.incline || '';
+      if (fin.querySelector('.cardio-hr')) fin.querySelector('.cardio-hr').value = c.hr || '';
+    });
+  } catch (e) {}
+}
+// Restaure l'état de tous les jours au chargement de la page
+document.querySelectorAll('.day-panel').forEach(p => restoreDayState(p.dataset.day));
+
 // ===== SETS / WARMUP CHECK LISTENERS (global, marchent sur tous les panels) =====
 document.querySelectorAll('.exercise[data-rest]').forEach(ex => {
   const restSeconds = parseInt(ex.dataset.rest, 10);
   ex.querySelectorAll('.set-row').forEach(row => {
+    const panelDay = () => row.closest('.day-panel').dataset.day;
     row.querySelector('.check').addEventListener('click', () => {
       row.classList.toggle('done');
       if(row.classList.contains('done')){ startTimer(restSeconds); if(navigator.vibrate) navigator.vibrate(30); }
       updateProgress();
+      saveDayState(panelDay());
+    });
+    row.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', () => saveDayState(panelDay()));
     });
   });
 });
 document.querySelectorAll('.simple-row').forEach(row => {
-  row.addEventListener('click', (e) => { if(e.target.closest('input')) return; row.classList.toggle('done'); updateProgress(); });
+  row.addEventListener('click', (e) => {
+    if(e.target.closest('input')) return;
+    row.classList.toggle('done');
+    updateProgress();
+    const panel = row.closest('.day-panel');
+    if (panel) saveDayState(panel.dataset.day);
+  });
+});
+document.querySelectorAll('.cardio-fields input').forEach(input => {
+  input.addEventListener('input', () => {
+    const panel = input.closest('.day-panel');
+    if (panel) saveDayState(panel.dataset.day);
+  });
 });
 
 // ===== EXERCISE INFO TOGGLE =====
@@ -839,6 +954,18 @@ document.addEventListener('click', (e) => {
   if (machine === 'rameur') { speedLabel.textContent='Allure /500m'; speedInput.placeholder='2:05'; speedInput.type='text'; inclineLabel.textContent='Résistance'; inclineUnit.textContent='NIV'; }
   else if (machine === 'tapis') { speedLabel.textContent='Vitesse'; speedInput.placeholder='9.5'; speedInput.type='number'; inclineLabel.textContent='Pente'; inclineUnit.textContent='%'; }
   else { speedLabel.textContent='Vitesse'; speedInput.placeholder='28'; speedInput.type='number'; inclineLabel.textContent='Résistance'; inclineUnit.textContent='NIV'; }
+
+  // Affiche l'objectif à atteindre selon la machine et le type de session (finisher court ou cardio principal long)
+  const targetType = finisher.dataset.target === 'long' ? 'long' : 'short';
+  const target = CARDIO_TARGETS[targetType][machine];
+  const objDiv = finisher.querySelector('.cardio-objective');
+  if (objDiv && target) {
+    objDiv.innerHTML = `<span class="obj-label">🎯 Objectif à atteindre</span>${target.txt}`;
+    objDiv.classList.add('visible');
+  }
+
+  const panel = finisher.closest('.day-panel');
+  if (panel) saveDayState(panel.dataset.day);
 });
 
 // ===== FEEL SCALE =====
@@ -876,6 +1003,21 @@ const weekdayMap = {0:'dim',1:'lun',2:'mar',3:'mer',4:'jeu',5:'dim',6:'dim'};
 selectDay(weekdayMap[new Date().getDay()]);
 
 // ===== MODE ÉDITION (ajuster les exercices à ta guise) =====
+document.getElementById('resetBtn').addEventListener('click', () => {
+  const panel = getActivePanel();
+  if (!confirm('Effacer toutes les valeurs remplies pour cette séance et repartir à zéro ?')) return;
+  panel.querySelectorAll('.set-row').forEach(row => {
+    row.classList.remove('done');
+    row.querySelectorAll('input').forEach(i => i.value = '');
+  });
+  panel.querySelectorAll('.simple-row').forEach(row => row.classList.remove('done'));
+  panel.querySelectorAll('.exercise.finisher').forEach(fin => {
+    fin.querySelectorAll('.machine-btn').forEach(b => b.classList.remove('selected'));
+    fin.querySelectorAll('.cardio-fields input').forEach(i => i.value = '');
+  });
+  localStorage.removeItem(getDayStateKey(panel.dataset.day));
+  updateProgress();
+});
 let editMode = false;
 const editBtn = document.getElementById('editBtn');
 const editHint = document.getElementById('editHint');
@@ -1030,12 +1172,7 @@ document.querySelectorAll('.set-row input').forEach(input => {
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { const row = input.closest('.set-row'); if (!row.classList.contains('done')) row.querySelector('.check').click(); input.blur(); }
   });
-});// Enregistre le service worker pour le mode hors-ligne (PWA)
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
-}
+});
 </script>
 </body>
 </html>
